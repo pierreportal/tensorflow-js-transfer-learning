@@ -1,6 +1,7 @@
 let net;
 
 let chordsCounter = 0;
+// document.body.requestFullscreen();
 
 const noteNames = [
   "C",
@@ -119,6 +120,7 @@ const learningButtons = document.querySelectorAll(".learning-btns button");
 const learningBtns = document.querySelector(".learning-btns");
 
 showLearningButton.addEventListener("click", () => {
+  document.body.requestFullscreen();
   showLearningButton.classList.remove("in");
   showLearningButton.classList.add("out");
   //
