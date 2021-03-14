@@ -3,18 +3,6 @@ let net;
 const webcamElement = document.getElementById("webcam");
 const classifier = knnClassifier.create();
 
-const constraints = {
-  video: {
-    facingMode: "environment",
-  },
-};
-
-// Activate the webcam stream.
-navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-  webcamElement.srcObject = stream;
-  // webcamElement.addEventListener("loadeddata", app);
-});
-
 // var video = document.getElementById("webcam");
 
 // // Get access to the camera!
@@ -45,6 +33,17 @@ navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
 
 async function app() {
   console.log("Loading mobilenet..");
+  const constraints = {
+    video: {
+      facingMode: "environment",
+    },
+  };
+
+  // Activate the webcam stream.
+  navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+    webcamElement.srcObject = stream;
+    // webcamElement.addEventListener("loadeddata", app);
+  });
 
   // Load the model.
   net = await mobilenet.load();
