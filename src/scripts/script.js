@@ -55,12 +55,10 @@ async function app() {
   };
 
   // Activate the webcam stream.
-  if (!webcamElement) {
-    navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-      console.log("stream: ", stream);
-      webcamElement.srcObject = stream;
-    });
-  }
+  navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+    console.log("stream: ", stream);
+    webcamElement.srcObject = stream;
+  });
 
   const addExample = async (classId) => {
     chordsCounter = chords.length;
@@ -108,13 +106,11 @@ const constraints = {
 };
 
 // Activate the webcam stream.
-if (webcamElement) {
-  navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-    console.log("stream: ", stream);
-    webcamElement.srcObject = stream;
-  });
-  app();
-}
+navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+  console.log("stream: ", stream);
+  webcamElement.srcObject = stream;
+});
+app();
 
 const showLearningButton = document.querySelector(".show-learning-btns");
 const hideLearningButton = document.querySelector(".hide-learning-btns");
