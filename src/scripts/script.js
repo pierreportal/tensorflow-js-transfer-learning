@@ -18,6 +18,8 @@ navigator.mediaDevices
 const webcamElement = document.getElementById("webcam");
 const classifier = knnClassifier.create();
 
+const chords = [];
+
 async function app() {
   console.log("Loading mobilenet..");
   net = await mobilenet.load();
@@ -42,22 +44,27 @@ async function app() {
     classifier.addExample(activation, classId);
     img.dispose();
   };
+  document.querySelector("#input-chord").addEventListener("blur", (event) => {
+    const value = event.target.value;
+    console.log("chord: ", value);
+    chords.push(value);
+  });
   document
-    .getElementById("class-a")
-    .addEventListener("click", () => addExample(0));
-  document
-    .getElementById("class-b")
-    .addEventListener("click", () => addExample(1));
-  document
-    .getElementById("class-c")
-    .addEventListener("click", () => addExample(2));
+    .getElementById("train")
+    .addEventListener("click", () => addExample(chords.length - 1));
+  // document
+  //   .getElementById("class-b")
+  //   .addEventListener("click", () => addExample(1));
+  // document
+  //   .getElementById("class-c")
+  //   .addEventListener("click", () => addExample(2));
 
   while (true) {
     if (classifier.getNumClasses() > 0) {
       const img = await webcam.capture();
       const activation = net.infer(img, "conv_preds");
       const result = await classifier.predictClass(activation);
-      const classes = ["A", "B", "C"];
+      const classes = chords;
       document.getElementById("console").innerText =
         result.confidences[result.label] === 1
           ? `
@@ -88,6 +95,7 @@ app();
 const showLearningButton = document.querySelector(".show-learning-btns");
 const hideLearningButton = document.querySelector(".hide-learning-btns");
 const learningConsole = document.querySelector("#console");
+const learningButtons = document.querySelectorAll(".learning-btns button");
 
 const learningBtns = document.querySelector(".learning-btns");
 

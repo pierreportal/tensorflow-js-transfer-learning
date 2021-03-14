@@ -19,11 +19,26 @@ body {
   display: flex;
   flex-direction: row;
 }
+.col {
+  display: flex;
+  flex-direction: column;
+}
 .in {
   transform: scale(1);
 }
 .out {
   transform: scale(0);
+}
+
+input {
+  padding: 2rem;
+  width: 100%;
+  text-align: center;
+  font-size: 6rem;
+  color: aquamarine;
+  background: none;
+  border: none;
+  outline: none;
 }
 
 video {
@@ -76,8 +91,9 @@ video {
 }
 
 button {
+  outline: none;
   cursor: pointer;
-  opacity: 0.3;
+  opacity: 1;
   height: 8rem;
   width: 8rem;
   border-radius: 50%;
@@ -85,18 +101,23 @@ button {
   color: white;
   background: none;
   /* background-color: white; */
-  transition: opacity 0.4s ease;
+  transition: transform 0.5s ease;
   font-size: 2rem;
+  transform: scale(1);
 }
-button:hover {
+/* button:hover {
   opacity: 0.8;
-}
+} */
 
 button:nth-of-type(odd) {
   transform: translateY(3rem);
 }
 button:nth-of-type(even) {
   transform: translateY(-3rem);
+}
+button.btn-down-effect {
+  transform: scale(0.5);
+  background-color: red;
 }
 
 #console {
