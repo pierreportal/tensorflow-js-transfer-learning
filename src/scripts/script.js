@@ -42,11 +42,10 @@ const classifier = knnClassifier.create();
 const chords = [];
 
 async function app() {
-  if (!webcamElement) return;
   console.log("Loading mobilenet..");
   net = await mobilenet.load();
   console.log("Successfully loaded model");
-  const webcam = webcamElement && (await tf.data.webcam(webcamElement));
+  const webcam = await tf.data.webcam(webcamElement);
   const constraints = {
     video: {
       facingMode: "environment",
@@ -78,9 +77,9 @@ async function app() {
 
   while (true) {
     if (classifier.getNumClasses() > 0) {
-      const img = webcam && (await webcam.capture());
-      const activation = img && net.infer(img, "conv_preds");
-      const result = img && (await classifier.predictClass(activation));
+      const img = await webcam.capture();
+      const activation = net.infer(img, "conv_preds");
+      const result = await classifier.predictClass(activation);
       const classes = chords.map((obj) =>
         Object.values(obj)
           .filter((value) => !["◀︎", "▶︎", "▼", "▲"].includes(value))
