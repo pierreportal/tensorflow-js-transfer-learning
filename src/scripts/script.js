@@ -86,7 +86,7 @@ async function app() {
           .join(",")
       );
       document.getElementById("console").innerText =
-        result.confidences[result.label] === 1
+        classes[result.label] && result.confidences[result.label] === 1
           ? `
           ${classes[result.label]}\n
         `
