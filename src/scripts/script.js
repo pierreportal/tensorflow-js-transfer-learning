@@ -120,7 +120,6 @@ const learningButtons = document.querySelectorAll(".learning-btns button");
 const learningBtns = document.querySelector(".learning-btns");
 
 showLearningButton.addEventListener("click", () => {
-  document.body.requestFullscreen();
   showLearningButton.classList.remove("in");
   showLearningButton.classList.add("out");
   //
