@@ -46,7 +46,7 @@ async function app() {
 }
 const constraints = {
   video: {
-    facingMode: "environment",
+    facingMode: { exact: "environment" },
   },
   audio: false,
 };
