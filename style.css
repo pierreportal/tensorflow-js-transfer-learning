@@ -1,7 +1,11 @@
-body {
-  background-color: white;
+html {
   width: 100vw;
   height: 100vh;
+}
+body {
+  background-color: white;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,11 +28,15 @@ body {
 
 video {
   overflow: hidden;
-  /* width: 100vw; */
+  width: 100vw;
   height: 100vh;
   background-color: white;
   background-size: cover;
+  object-fit: cover;
 }
+/* video > * {
+  height: 100%;
+} */
 
 .learning-btns {
   position: absolute;
@@ -45,23 +53,23 @@ video {
 }
 
 .show-learning-btns {
-  width: 1rem;
-  height: 1rem;
-  border: solid 3px white;
+  width: 4rem;
+  height: 4rem;
+  border: solid 10px white;
   position: absolute;
-  bottom: 3rem;
-  border-radius: 0.5rem;
+  bottom: 6rem;
+  border-radius: 2rem;
   z-index: 2;
   transition: transform 0.3s ease;
   cursor: pointer;
 }
 .hide-learning-btns {
-  width: 1rem;
-  height: 0.2rem;
-  border: solid 3px white;
+  width: 4rem;
+  height: 1rem;
+  border: solid 10px white;
   position: absolute;
-  bottom: 3rem;
-  border-radius: 0.5rem;
+  bottom: 6rem;
+  border-radius: 2rem;
   z-index: 2;
   transition: transform 0.3s ease;
   cursor: pointer;
@@ -70,17 +78,25 @@ video {
 button {
   cursor: pointer;
   opacity: 0.3;
-  height: 4rem;
-  width: 4rem;
+  height: 8rem;
+  width: 8rem;
   border-radius: 50%;
-  border: solid 2px white;
+  border: solid 10px white;
   color: white;
   background: none;
   /* background-color: white; */
   transition: opacity 0.4s ease;
+  font-size: 2rem;
 }
 button:hover {
   opacity: 0.8;
+}
+
+button:nth-of-type(odd) {
+  transform: translateY(3rem);
+}
+button:nth-of-type(even) {
+  transform: translateY(-3rem);
 }
 
 #console {
@@ -94,6 +110,7 @@ button:hover {
   justify-content: center;
   opacity: 1;
   transition: opacity 0.3s ease;
+  font-size: 5rem;
 }
 
 #console.fade-out {
