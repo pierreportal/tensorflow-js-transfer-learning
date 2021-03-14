@@ -3,6 +3,18 @@ let net;
 const webcamElement = document.getElementById("webcam");
 const classifier = knnClassifier.create();
 
+const constraints = {
+  video: {
+    facingMode: "environment",
+  },
+};
+
+// Activate the webcam stream.
+navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+  webcamElement.srcObject = stream;
+  // webcamElement.addEventListener("loadeddata", app);
+});
+
 // var video = document.getElementById("webcam");
 
 // // Get access to the camera!
@@ -40,24 +52,28 @@ async function app() {
 
   // Create an object from Tensorflow.js data API which could capture image
   // from the web camera as Tensor.
+  // const webcam = await tf.data.webcam(webcamElement);
+
   const webcam = await tf.data.webcam(webcamElement);
+  console.log("webcam: ", webcam);
 
-  const videoConstraints = {
-    facingMode: "environment",
-  };
-  const constraints = {
-    video: videoConstraints,
-    audio: false,
-  };
+  // const videoConstraints = {
+  //   facingMode: "environment",
+  // };
+  // const constraints = {
+  //   video: videoConstraints,
+  //   audio: false,
+  // };
 
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then((stream) => {
-      webcam.srcObject = stream;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  // const stream = await navigator.mediaDevices
+  //   .getUserMedia(constraints)
+  //   .then((stream) => {
+  //     webcam.srcObject = stream;
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
+  // getUsermedia parameters to force video but not audio.
 
   // Reads an image from the webcam and associates it with a specific class
   // index.
