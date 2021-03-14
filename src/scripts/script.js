@@ -3,6 +3,34 @@ let net;
 const webcamElement = document.getElementById("webcam");
 const classifier = knnClassifier.create();
 
+// var video = document.getElementById("webcam");
+
+// // Get access to the camera!
+// if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+//   // Not adding `{ audio: true }` since we only want video now
+//   navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+//     //video.src = window.URL.createObjectURL(stream);
+//     video.srcObject = stream;
+//     video.play();
+//   });
+// }
+// const select = document.getElementById("select");
+// function gotDevices(mediaDevices) {
+//   select.innerHTML = "";
+//   select.appendChild(document.createElement("option"));
+//   let count = 1;
+//   mediaDevices.forEach((mediaDevice) => {
+//     if (mediaDevice.kind === "videoinput") {
+//       const option = document.createElement("option");
+//       option.value = mediaDevice.deviceId;
+//       const label = mediaDevice.label || `Camera ${count++}`;
+//       const textNode = document.createTextNode(label);
+//       option.appendChild(textNode);
+//       select.appendChild(option);
+//     }
+//   });
+// }
+
 async function app() {
   console.log("Loading mobilenet..");
 
@@ -13,6 +41,23 @@ async function app() {
   // Create an object from Tensorflow.js data API which could capture image
   // from the web camera as Tensor.
   const webcam = await tf.data.webcam(webcamElement);
+
+  const videoConstraints = {
+    facingMode: "environment",
+  };
+  const constraints = {
+    video: videoConstraints,
+    audio: false,
+  };
+
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then((stream) => {
+      webcam.srcObject = stream;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   // Reads an image from the webcam and associates it with a specific class
   // index.
@@ -68,7 +113,7 @@ async function app() {
     await tf.nextFrame();
   }
 }
-
+// navigator.mediaDevices.enumerateDevices().then(gotDevices);
 app();
 
 const showLearningButton = document.querySelector(".show-learning-btns");
