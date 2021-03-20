@@ -1,5 +1,7 @@
 let chordsCounter = 0;
 
+let nExample = 0;
+
 const noteNames = [
   "C",
   "C#/Db",
@@ -22,6 +24,13 @@ const oveRangeNotes = (ove) =>
 const chords = [];
 
 const addNoteToChord = (noteInterval, note) => {
+  // console.log("chords.lengt: ", chords.lengt);
+  // console.log("chordsCounter: ", chordsCounter);
+  // if (chordsCounter !== chords.length)
+  document.querySelector(".train-button-feedback").style.top = 100 + "%";
+  document.querySelector(".train-button-feedback").style.backgroundColor =
+    "aquamarine";
+  nExample = 0;
   // if (chordsCounter === chords.length)
   chords[chordsCounter]
     ? (chords[chordsCounter][noteInterval] = oveRangeNotes(2)[note])
@@ -51,25 +60,25 @@ const noteSliderSeventh = document.querySelector(
 const noteValueSeventh = document.querySelector(
   ".range-slider.seventh .range-value"
 );
-noteValueRoot.innerHTML = "▲"; //oveRangeNotes(2)[noteSliderRoot.value];
+noteValueRoot.innerHTML = ""; //oveRangeNotes(2)[noteSliderRoot.value];
 noteSliderRoot.addEventListener("input", function () {
   addNoteToChord("root", this.value);
   noteValueRoot.innerHTML = oveRangeNotes(2)[this.value];
 });
 
-noteValueThird.innerHTML = "▶︎"; //oveRangeNotes(2)[noteSliderThird.value];
+noteValueThird.innerHTML = ""; //oveRangeNotes(2)[noteSliderThird.value];
 noteSliderThird.addEventListener("input", function () {
   addNoteToChord("third", this.value);
   noteValueThird.innerHTML = oveRangeNotes(2)[this.value];
 });
 
-noteValueFifth.innerHTML = "▼"; //oveRangeNotes(2)[noteSliderFifth.value];
+noteValueFifth.innerHTML = ""; //oveRangeNotes(2)[noteSliderFifth.value];
 noteSliderFifth.addEventListener("input", function () {
   addNoteToChord("fifth", this.value);
   noteValueFifth.innerHTML = oveRangeNotes(2)[this.value];
 });
 
-noteValueSeventh.innerHTML = "◀︎"; //oveRangeNotes(2)[noteSliderSeventh.value];
+noteValueSeventh.innerHTML = ""; //oveRangeNotes(2)[noteSliderSeventh.value];
 noteSliderSeventh.addEventListener("input", function () {
   addNoteToChord("seventh", this.value);
   noteValueSeventh.innerHTML = oveRangeNotes(2)[this.value];

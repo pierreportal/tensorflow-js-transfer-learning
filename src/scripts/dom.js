@@ -3,6 +3,8 @@ const hideLearningButton = document.querySelector(".hide-learning-btns");
 const learningConsole = document.querySelector("#console");
 const learningButtons = document.querySelectorAll(".learning-btns button");
 
+let detectedChord = false;
+
 const learningBtns = document.querySelector(".learning-btns");
 
 showLearningButton.addEventListener("click", () => {
@@ -14,6 +16,8 @@ showLearningButton.addEventListener("click", () => {
   //
   learningBtns.classList.add("slide-down");
   learningConsole.classList.add("fade-out");
+
+  detectedChord = false;
 });
 
 hideLearningButton.addEventListener("click", () => {
@@ -25,4 +29,6 @@ hideLearningButton.addEventListener("click", () => {
   //
   learningBtns.classList.remove("slide-down");
   learningConsole.classList.remove("fade-out");
+
+  detectedChord = true;
 });

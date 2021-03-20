@@ -2,8 +2,6 @@ const now = Tone.now();
 
 const btn = document.querySelector(".play");
 
-const chordPlayed = ["C4", "E4", "G4", "B4"];
-
 const configs = {
   oscillator: { type: "sine" },
   envelope: {
@@ -14,7 +12,7 @@ const configs = {
   },
 };
 
-const gain = new Tone.Gain(1 / chordPlayed.length).toDestination();
+const gain = new Tone.Gain(1 / 4).toDestination();
 
 const poly = {
   0: new Tone.Synth(configs).connect(gain),
@@ -26,14 +24,27 @@ const poly = {
 let net;
 const webcamElement = document.getElementById("webcam");
 
+const playChordButton = document.querySelector(".play-chord-button");
+
+playChordButton.addEventListener("mousedown", () => {
+  const playingChord = chords.map((obj) =>
+    Object.values(obj)
+      .filter((value) => !!value.length)
+      .join(",")
+  )[chords.length - 1];
+  if (!playingChord) return;
+  const toneChord = playingChord.split(",").map((x) => x.split("/")[0]);
+  toneChord.map((note, i) => poly[i].triggerAttackRelease(note, "2"));
+});
+
 if (webcamElement) {
   navigator.mediaDevices
     .enumerateDevices()
     .then(function (devices) {
       devices.forEach(function (device) {
-        console.log(
-          device.kind + ": " + device.label + " id = " + device.groupId
-        );
+        // console.log(
+        //   device.kind + ": " + device.label + " id = " + device.groupId
+        // );
       });
     })
     .catch(function (e) {
@@ -53,48 +64,37 @@ async function app() {
     audio: false,
   };
 
-  // Activate the webcam stream.
   navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
     webcamElement.srcObject = stream;
   });
 
-  let detectedChord = "";
-
   const changeDetectedChord = (chord) => {
-    setTimeout(() => {
-      // if (!detectedChord) return;
-      if (detectedChord !== chord) {
-        Object.values(poly).forEach((synth) => synth.triggerRelease());
-        // synth.triggerRelease(
-        //   detectedChord.split(",").map((x) => x.split("/")[0]),
-        //   now + 0.3
-        // );
-        const toneChord = chord.split(",").map((x) => x.split("/")[0]);
-
-        console.log("toneChord: ", toneChord);
-        Object.values(poly).forEach((synth) => synth.triggerRelease());
-
-        toneChord.map((note, i) => poly[i].triggerAttack(note));
-
-        // synth.triggerAttack(toneChord, now + 0.5);
-      }
-    }, 300);
+    if (detectedChord) {
+      const toneChord = chord.split(",").map((x) => x.split("/")[0]);
+      Object.values(poly).forEach((synth) => synth.triggerRelease());
+      toneChord.map((note, i) => poly[i].triggerAttack(note));
+    }
   };
 
   const addExample = async (classId) => {
+    if (classId === -1) return;
     chordsCounter = chords.length;
     const img = await webcam.capture();
     const activation = net.infer(img, true);
     classifier.addExample(activation, classId);
     img.dispose();
-    // trigger the attack immediately
-    // const feedBack = document.querySelector(".train-button-feedback");
-    // feedBack.style.top = "50%";
+    nExample += 1;
+    document.querySelector(".train-button-feedback").style.top =
+      Math.max(0, 100 - nExample * 10) + "%";
+    if (nExample === 10) {
+      document.querySelector(".train-button-feedback").style.backgroundColor =
+        "violet";
+    }
   };
   document
     .getElementById("train")
     .addEventListener("click", () => addExample(chords.length - 1));
-
+  let ones = [];
   while (true) {
     if (classifier.getNumClasses() > 0) {
       const img = await webcam.capture();
@@ -102,21 +102,20 @@ async function app() {
       const result = await classifier.predictClass(activation);
       const classes = chords.map((obj) =>
         Object.values(obj)
-          .filter((value) => !["◀︎", "▶︎", "▼", "▲"].includes(value))
+          .filter((value) => !!value.length)
           .join(",")
       );
+
       if (classes[result.label] && result.confidences[result.label] === 1) {
-        document.getElementById("console").innerText = classes[result.label];
-        changeDetectedChord(classes[result.label]);
-        detectedChord = classes[result.label];
+        ones.push(1);
+        if (ones.length === 10) {
+          document.getElementById("console").innerText = ":)";
+          changeDetectedChord(classes[result.label]);
+        }
       } else {
+        ones = [];
         document.getElementById("console").innerText = "";
         Object.values(poly).forEach((synth) => synth.triggerRelease());
-
-        // synth.triggerRelease(
-        //   classes[result.label].split(",").map((x) => x.split("/")[0]),
-        //   now + 0.3
-        // );
       }
 
       img.dispose();
