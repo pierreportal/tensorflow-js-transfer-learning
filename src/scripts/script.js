@@ -1,29 +1,31 @@
+const now = Tone.now();
+
+const btn = document.querySelector(".play");
+
+const chordPlayed = ["C4", "E4", "G4", "B4"];
+
+const configs = {
+  oscillator: { type: "sine" },
+  envelope: {
+    attack: 0.2,
+    decay: 0,
+    sustain: 0.3,
+    release: 1,
+  },
+};
+
+const gain = new Tone.Gain(1 / chordPlayed.length).toDestination();
+
+const poly = {
+  0: new Tone.Synth(configs).connect(gain),
+  1: new Tone.Synth(configs).connect(gain),
+  2: new Tone.Synth(configs).connect(gain),
+  3: new Tone.Synth(configs).connect(gain),
+};
+
 let net;
-
-let chordsCounter = 0;
-// document.body.requestFullscreen();
-
-const noteNames = [
-  "C",
-  "C#/Db",
-  "D",
-  "D#/Eb",
-  "E",
-  "F",
-  "F#/Gb",
-  "G",
-  "G#/Ab",
-  "A",
-  "A#/Bb",
-  "B",
-];
-const oveRangeNotes = (ove) =>
-  [...new Array(ove).fill(noteNames)].reduce((a, b, i) => {
-    return [...a, ...b.map((x) => `${x}${i + 1}`)];
-  }, []);
-
-// List cameras and microphones.
 const webcamElement = document.getElementById("webcam");
+
 if (webcamElement) {
   navigator.mediaDevices
     .enumerateDevices()
@@ -38,14 +40,11 @@ if (webcamElement) {
       console.log(e.name + ": " + e.message);
     });
 }
+
 const classifier = knnClassifier.create();
 
-const chords = [];
-
 async function app() {
-  console.log("Loading mobilenet..");
   net = await mobilenet.load();
-  console.log("Successfully loaded model");
   const webcam = await tf.data.webcam(webcamElement);
   const constraints = {
     video: {
@@ -56,9 +55,31 @@ async function app() {
 
   // Activate the webcam stream.
   navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-    console.log("stream: ", stream);
     webcamElement.srcObject = stream;
   });
+
+  let detectedChord = "";
+
+  const changeDetectedChord = (chord) => {
+    setTimeout(() => {
+      // if (!detectedChord) return;
+      if (detectedChord !== chord) {
+        Object.values(poly).forEach((synth) => synth.triggerRelease());
+        // synth.triggerRelease(
+        //   detectedChord.split(",").map((x) => x.split("/")[0]),
+        //   now + 0.3
+        // );
+        const toneChord = chord.split(",").map((x) => x.split("/")[0]);
+
+        console.log("toneChord: ", toneChord);
+        Object.values(poly).forEach((synth) => synth.triggerRelease());
+
+        toneChord.map((note, i) => poly[i].triggerAttack(note));
+
+        // synth.triggerAttack(toneChord, now + 0.5);
+      }
+    }, 300);
+  };
 
   const addExample = async (classId) => {
     chordsCounter = chords.length;
@@ -66,12 +87,10 @@ async function app() {
     const activation = net.infer(img, true);
     classifier.addExample(activation, classId);
     img.dispose();
+    // trigger the attack immediately
+    // const feedBack = document.querySelector(".train-button-feedback");
+    // feedBack.style.top = "50%";
   };
-  // document.querySelector("#input-chord").addEventListener("blur", (event) => {
-  //   const value = event.target.value;
-  //   console.log("chord: ", value);
-  //   chords.push(value);
-  // });
   document
     .getElementById("train")
     .addEventListener("click", () => addExample(chords.length - 1));
@@ -86,111 +105,74 @@ async function app() {
           .filter((value) => !["◀︎", "▶︎", "▼", "▲"].includes(value))
           .join(",")
       );
-      document.getElementById("console").innerText =
-        classes[result.label] && result.confidences[result.label] === 1
-          ? `
-          ${classes[result.label]}\n
-        `
-          : "";
+      if (classes[result.label] && result.confidences[result.label] === 1) {
+        document.getElementById("console").innerText = classes[result.label];
+        changeDetectedChord(classes[result.label]);
+        detectedChord = classes[result.label];
+      } else {
+        document.getElementById("console").innerText = "";
+        Object.values(poly).forEach((synth) => synth.triggerRelease());
+
+        // synth.triggerRelease(
+        //   classes[result.label].split(",").map((x) => x.split("/")[0]),
+        //   now + 0.3
+        // );
+      }
+
       img.dispose();
     }
 
     await tf.nextFrame();
   }
 }
+
 const constraints = {
   video: {
     facingMode: "environment",
   },
   audio: false,
 };
-
 // Activate the webcam stream.
 navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-  console.log("stream: ", stream);
   webcamElement.srcObject = stream;
 });
 app();
 
-const showLearningButton = document.querySelector(".show-learning-btns");
-const hideLearningButton = document.querySelector(".hide-learning-btns");
-const learningConsole = document.querySelector("#console");
-const learningButtons = document.querySelectorAll(".learning-btns button");
+/**
+ * 
+const now = Tone.now();
 
-const learningBtns = document.querySelector(".learning-btns");
+const btn = document.querySelector('.play');
 
-showLearningButton.addEventListener("click", () => {
-  showLearningButton.classList.remove("in");
-  showLearningButton.classList.add("out");
-  //
-  hideLearningButton.classList.remove("out");
-  hideLearningButton.classList.add("in");
-  //
-  learningBtns.classList.add("slide-down");
-  learningConsole.classList.add("fade-out");
-});
+const chordPlayed = ["C4","E4","G4","B4"];
 
-hideLearningButton.addEventListener("click", () => {
-  showLearningButton.classList.remove("out");
-  showLearningButton.classList.add("in");
-  //
-  hideLearningButton.classList.remove("in");
-  hideLearningButton.classList.add("out");
-  //
-  learningBtns.classList.remove("slide-down");
-  learningConsole.classList.remove("fade-out");
-});
+const configs = 
+      {oscillator: { type: "sine" },
+        envelope: {
+          attack: 0.2,
+          decay: 0,
+          sustain: 0.3,
+          release: 1
+        }
+      }
 
-const addNoteToChord = (noteInterval, note) => {
-  // if (chordsCounter === chords.length)
-  chords[chordsCounter]
-    ? (chords[chordsCounter][noteInterval] = oveRangeNotes(2)[note])
-    : chords.push({ [noteInterval]: oveRangeNotes(2)[note] });
-  console.log("chords:", chords);
-};
+const gain = new Tone.Gain(1/chordPlayed.length).toDestination();
 
-const noteSliderRoot = document.querySelector(
-  ".range-slider.root .input-range"
-);
-const noteValueRoot = document.querySelector(".range-slider.root .range-value");
-const noteSliderThird = document.querySelector(
-  ".range-slider.third .input-range"
-);
-const noteValueThird = document.querySelector(
-  ".range-slider.third .range-value"
-);
-const noteSliderFifth = document.querySelector(
-  ".range-slider.fifth .input-range"
-);
-const noteValueFifth = document.querySelector(
-  ".range-slider.fifth .range-value"
-);
-const noteSliderSeventh = document.querySelector(
-  ".range-slider.seventh .input-range"
-);
-const noteValueSeventh = document.querySelector(
-  ".range-slider.seventh .range-value"
-);
-noteValueRoot.innerHTML = "▲"; //oveRangeNotes(2)[noteSliderRoot.value];
-noteSliderRoot.addEventListener("input", function () {
-  addNoteToChord("root", this.value);
-  noteValueRoot.innerHTML = oveRangeNotes(2)[this.value];
-});
+const poly = {
+  0:  new Tone.Synth(configs).connect(gain),
+  1:  new Tone.Synth(configs).connect(gain),
+  2:  new Tone.Synth(configs).connect(gain),
+  3:  new Tone.Synth(configs).connect(gain),
+}
 
-noteValueThird.innerHTML = "▶︎"; //oveRangeNotes(2)[noteSliderThird.value];
-noteSliderThird.addEventListener("input", function () {
-  addNoteToChord("third", this.value);
-  noteValueThird.innerHTML = oveRangeNotes(2)[this.value];
-});
+const playChord = () => {
+  chordPlayed.map((note, i) => poly[i].triggerAttack(note))
+}
+const stopChord = () => {
+  Object.values(poly).forEach(synth =>synth.triggerRelease())
+}
 
-noteValueFifth.innerHTML = "▼"; //oveRangeNotes(2)[noteSliderFifth.value];
-noteSliderFifth.addEventListener("input", function () {
-  addNoteToChord("fifth", this.value);
-  noteValueFifth.innerHTML = oveRangeNotes(2)[this.value];
-});
+btn.addEventListener('mousedown', playChord)
+btn.addEventListener('mouseup', stopChord)
 
-noteValueSeventh.innerHTML = "◀︎"; //oveRangeNotes(2)[noteSliderSeventh.value];
-noteSliderSeventh.addEventListener("input", function () {
-  addNoteToChord("seventh", this.value);
-  noteValueSeventh.innerHTML = oveRangeNotes(2)[this.value];
-});
+ */

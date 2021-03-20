@@ -5,6 +5,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.14/Tone.js"
+        integrity="sha512-0R3O2W4t+1h8Jd3LumXXJrpHuY76WDdjE9he0D7Ra6J95lnvbdmZe+CTw5Bfe2p4CrYeC/dpgtJ33ztGUXKH4Q=="
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <meta name="mobile-web-app-capable" content="yes">
 
@@ -39,8 +42,13 @@
 
         </div>
         <!-- <input id="input-chord" type="text" placeholder="C7M" autofocus='true'> -->
-        <button id="train">☻</button>
+        <div class="train-button" id="train">
+            <span>☻</span>
+            <div class="train-button-feedback"></div>
+        </div>
     </div>
+    <script src="src/scripts/dom.js"></script>
+    <script src="src/scripts/chords-builder.js"></script>
     <script src="src/scripts/script.js"></script>
 </body>
 
