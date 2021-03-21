@@ -136,8 +136,8 @@ async function app() {
     clearInterval(trainingInterval);
     isTraining = false;
   };
-  trainButton.addEventListener("mousedown", keepTraining);
-  trainButton.addEventListener("mouseup", stopTraining);
+  trainButton.addEventListener("touchstart", keepTraining);
+  trainButton.addEventListener("touchend", stopTraining);
 
   const trainStep = (n) => {
     trainFeedback.style.top = 100 - n * 10 + "%";
