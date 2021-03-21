@@ -75,8 +75,10 @@ doneButton.addEventListener("click", () => {
     hLine.classList.remove("hide");
     consoleMonitor.classList.add("hidden");
     autoPLay = false;
+    stopButton.classList.remove("play-yellow");
+    // this.classList.add("play-yellow");
 
-    stopButton.innerHTML = "play";
+    // stopButton.innerHTML = "play";
   } else {
     Object.values(poly).forEach((synth) => synth.triggerRelease());
     container.classList.add("hidden");
@@ -85,6 +87,7 @@ doneButton.addEventListener("click", () => {
     hLine.classList.add("hide");
     consoleMonitor.classList.remove("hidden");
     autoPLay = true;
-    stopButton.innerHTML = "stop";
+    // stopButton.innerHTML = "stop";
+    stopButton.classList.remove("play-yellow");
   }
 });

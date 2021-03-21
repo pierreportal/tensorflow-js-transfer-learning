@@ -86,11 +86,14 @@ stopButton.addEventListener("click", function () {
   autoPLay = !autoPLay;
   if (!autoPLay) {
     Object.values(poly).forEach((synth) => synth.triggerRelease());
-    this.innerHTML = "play";
+    // this.innerHTML = "play";
+    this.classList.remove("play-yellow");
+    console.log("this.classList: ", this.classList);
   } else {
     if (playingChord.length) {
       playChord(playingChord);
-      this.innerHTML = "stop";
+      // this.innerHTML = "stop";
+      this.classList.add("play-yellow");
     }
   }
 });
