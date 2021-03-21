@@ -1,224 +1,233 @@
-html {
-  width: 100vw;
-  height: 95vh;
-  font-family: sans-serif;
+* {
+  box-sizing: border-box;
 }
 body {
-  background-color: #eee;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  padding: 0;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
-  /* position: relative; */
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
+  background-color: darkgray;
+  font-family: sans-serif;
+  /* padding: 1rem; */
 }
 .col {
   display: flex;
   flex-direction: column;
 }
-.in {
-  transform: scale(1);
-}
-.out {
-  transform: scale(0);
-}
-.range-slider .range-value {
-  color: white;
-  font-size: 1.5rem;
-  transform: translateY(-15rem);
-  height: 3rem;
-}
-.range-slider {
-  width: 10rem;
-  align-items: center;
+
+.row {
   display: flex;
-  flex-direction: column;
-  height: 23rem;
-  /* background-color: red; */
-  padding-top: 15rem;
 }
-
-.range-slider .input-range {
-  writing-mode: bt-lr; /* IE */
-  /* -webkit-appearance: slider-vertical; */
-  height: 10rem;
-  width: 30rem;
-  -webkit-appearance: none;
-  transform: rotate(-90deg);
-
-  /* width: 100%; */
-  background: transparent;
-  /* border-left: solid 0.4rem white;
-  border-right: solid 0.4rem white; */
+.space-btw {
+  justify-content: space-between;
 }
-
-input {
-  padding: 2rem;
+.ten-percent {
+  height: 10%;
+}
+.console {
+  position: absolute;
+  z-index: 0;
   width: 100%;
-  text-align: center;
-  font-size: 6rem;
-  color: aquamarine;
-  background: none;
-  border: none;
-  outline: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: aqua;
+  font-size: 2rem;
 }
-
 video {
+  position: absolute;
   overflow: hidden;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   background-color: white;
   background-size: cover;
   object-fit: cover;
 }
-/* video > * {
+.control {
+  width: 100%;
   height: 100%;
-} */
-
-.learning-btns {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);
-  height: 100%;
-  width: 100vw;
+}
+.container {
+  flex: 1;
+  height: 80%;
+  justify-content: space-around;
   align-items: center;
+  transition: opacity ease 0.2s;
+}
+.train-button-container {
+  color: #575757;
+  width: 100%;
   justify-content: space-evenly;
-  transform: translateY(-100%);
-  transition: transform 0.2s ease;
-}
-.learning-btns.slide-down {
-  transform: translateY(0%);
-}
+  height: 10%;
+  align-items: center;
+  transition: opacity ease 0.2s;
 
-.show-learning-btns {
-  width: 4rem;
-  height: 4rem;
-  border: solid 10px white;
-  position: absolute;
-  bottom: 12rem;
-  border-radius: 2rem;
-  z-index: 2;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+  border-radius: 1rem;
+  padding: 0.3rem;
 }
-.hide-learning-btns {
-  width: 4rem;
-  height: 0rem;
-  border: solid 4px white;
-  position: absolute;
-  bottom: 12rem;
-  border-radius: 2rem;
-  z-index: 2;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+.train-button-container > div {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #eee; */
 }
-
-.train-button {
-  overflow: hidden;
-  position: relative;
-  outline: none;
-  cursor: pointer;
-  opacity: 1;
-  height: 8rem;
+.done-button {
   width: 8rem;
-  border-radius: 50%;
-  /* border: solid 10px white; */
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
   color: white;
-  background: none;
-  /* background-color: white; */
-  transition: transform 0.5s ease;
-  font-size: 2rem;
-  transform: scale(1);
-  font-size: 8rem;
+}
+
+.done-button .v-line {
+  height: 2rem;
+  width: 0.4rem;
+  background-color: hotpink;
+  position: absolute;
+  transition: height ease 0.4s;
+  border-radius: 0.3rem;
+}
+.done-button .v-line.hide {
+  height: 0;
+}
+.done-button .h-line.hide {
+  width: 0;
+}
+.done-button .h-line {
+  width: 2rem;
+  height: 0.4rem;
+  background-color: hotpink;
+  position: absolute;
+  transition: width ease 0.4s;
+  border-radius: 0.3rem;
+}
+
+.train-button-container > div:first-of-type {
+  background-color: #eee;
+  border-radius: 1rem 0 0 1rem;
+}
+.train-button-container > div:last-of-type {
+  background-color: #ddd;
+  border-radius: 0 1rem 1rem 0;
+}
+.chord-gallery {
+  height: 100%;
+  /* height: 4rem; */
+  flex: 1;
+  /* background-color: green; */
+  padding: 0.3rem;
+  align-items: center;
+  overflow-x: scroll;
+}
+.chord-gallery > div {
+  height: 4rem;
+  min-width: 4rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  opacity: 0.5;
+  margin-right: 0.3rem;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.train-button > span {
+.chord-gallery > div:last-of-type {
+  animation: scaleUp;
+  animation-duration: 0.2s;
+}
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+button {
+  width: 10rem;
+}
+
+.cell-touch {
+  border: solid 3px transparent;
+  width: 100%;
+  flex: 1;
+  justify-content: space-evenly;
+}
+
+.cell-touch > div {
+  background-color: white;
+  height: 100%;
+  flex: 1;
+  text-align: center;
+  transition: background-color ease 0.2s, opacity ease 0.2s;
+}
+
+.cell-touch.black-key > div:nth-of-type(1) {
+  opacity: 0.1;
+}
+.cell-touch.black-key > div:nth-of-type(2) {
+  opacity: 0.2;
+}
+.cell-touch.black-key > div:nth-of-type(3) {
+  opacity: 0.3;
+}
+.cell-touch.black-key > div:nth-of-type(4) {
+  opacity: 0.4;
+}
+.cell-touch > div:nth-of-type(1) {
+  opacity: 0.4;
+}
+.cell-touch > div:nth-of-type(2) {
+  opacity: 0.3;
+}
+.cell-touch > div:nth-of-type(3) {
+  opacity: 0.2;
+}
+.cell-touch > div:nth-of-type(4) {
+  opacity: 0.1;
+}
+
+.cell-touch {
+  border-radius: 1rem;
+}
+.cell-touch > div:last-of-type {
+  border-radius: 0 1rem 1rem 0;
+}
+
+.cell-touch > div:first-of-type {
+  border-radius: 1rem 0 0 1rem;
+}
+
+.cell-touch > div.activated,
+.cell-touch.black-key > div.activated {
+  background-color: aqua;
+  opacity: 0.6;
+}
+.disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.train-button {
+  position: relative;
+  overflow: hidden;
+}
+.train-button span {
   z-index: 1;
 }
-/* button:hover {
-  opacity: 0.8;
-} */
-
-/* button:nth-of-type(odd) {
-  transform: translateY(3rem);
-}
-button:nth-of-type(even) {
-  transform: translateY(-3rem);
-}
-button.btn-down-effect {
-  transform: scale(0.5);
-  background-color: red;
-} */
-
-#console {
-  position: absolute;
-  color: aquamarine;
-  height: 95vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-  font-size: 5rem;
-}
-
-#console.fade-out {
-  opacity: 0;
-}
-
-.range-slider .input-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-
-/* .range-slider .input-range:focus {
-  outline: none;
-} */
-.play-chord-button {
-  background-color: white;
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  border: none;
-  font-size: 2rem;
-}
-.range-slider .input-range::-ms-track {
-  width: 100%;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-/* Special styling for WebKit/Blink */
-.range-slider .input-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border: 5px solid white;
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  background: none;
-  cursor: pointer;
-  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-}
-
-.train-button-feedback {
-  position: absolute;
+.train-feedback {
   width: 100%;
   height: 100%;
+  position: absolute;
+  background-color: hotpink;
   top: 100%;
-  background-color: aquamarine;
-  opacity: 0.8;
-  z-index: 0;
-  transition: top ease 0.3s;
+  transition: top ease 0.6s;
 }

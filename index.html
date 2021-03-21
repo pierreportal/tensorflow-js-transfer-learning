@@ -1,58 +1,60 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <!-- Load the latest version of TensorFlow.js -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.14/Tone.js"
         integrity="sha512-0R3O2W4t+1h8Jd3LumXXJrpHuY76WDdjE9he0D7Ra6J95lnvbdmZe+CTw5Bfe2p4CrYeC/dpgtJ33ztGUXKH4Q=="
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
     <meta name="mobile-web-app-capable" content="yes">
-
+    <title>tone js</title>
 </head>
 
 <body>
-
-    <div id="console"></div>
     <video autoplay playsinline muted id="webcam"></video>
-    <div class="show-learning-btns in"></div>
-    <div class="hide-learning-btns out"></div>
 
-    <div class="learning-btns col">
-        <div class="notes-sliders row">
-            <div class="range-slider root">
-                <span class="range-value"></span>
-                <input type="range" class="input-range" orient="vertical" type="range" step="1" value="11" min="0"
-                    max="23">
-            </div>
-            <div class="range-slider third">
-                <span class="range-value"></span>
-                <input class="input-range" orient="vertical" type="range" step="1" value="11" min="0" max="23">
-            </div>
-            <div class="range-slider fifth">
-                <span class="range-value"></span>
-                <input class="input-range" orient="vertical" type="range" step="1" value="11" min="0" max="23">
-            </div>
-            <div class="range-slider seventh">
-                <span class="range-value"></span>
-                <input class="input-range" orient="vertical" type="range" step="1" value="11" min="0" max="23">
-            </div>
+    <div class="control">
 
+        <div class="console hidden">doiufv;opihj</div>
+
+
+        <div class="row space-btw ten-percent">
+
+            <div class="chord-gallery row">
+                <!-- <div class="chord">A</div> -->
+            </div>
+            <div class="done-button">
+                <span class="v-line hide"></span>
+                <span class="h-line"></span>
+            </div>
         </div>
-        <!-- <input id="input-chord" type="text" placeholder="C7M" autofocus='true'> -->
-        <button class="play-chord-button">
-            play
-        </button>
-        <div class="train-button" id="train">
-            <span>☻</span>
-            <div class="train-button-feedback"></div>
+
+
+
+
+        <div class="container col"></div>
+        <div class="train-button-container disabled row">
+            <div class="stop-button">stop</div>
+            <div class="train-button">
+
+                <span>train</span>
+                <div class="train-feedback"></div>
+            </div>
         </div>
+
     </div>
-    <script src="src/scripts/dom.js"></script>
-    <script src="src/scripts/chords-builder.js"></script>
-    <script src="src/scripts/script.js"></script>
+
 </body>
+
+<script src="src/dom.js"></script>
+<script src="src/webcam.js"></script>
+<script src="src/synth.js"></script>
+<script src="src/script.js"></script>
 
 </html>
