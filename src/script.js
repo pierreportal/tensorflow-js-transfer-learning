@@ -101,6 +101,8 @@ async function app() {
   net = await mobilenet.load();
   const webcam = await tf.data.webcam(webcamElement);
 
+  initCamera();
+
   // train
   const addExample = async (classId) => {
     // chordsCounter = chords.length;
@@ -166,7 +168,11 @@ async function app() {
       if (classes[result.label] && result.confidences[result.label] === 1) {
         ones.push(1);
         if (ones.length === 10) {
-          consoleMonitor.innerHTML = +result.label + 1;
+          // consoleMonitor.innerHTML = +result.label + 1;
+
+          consoleTxt.innerHTML = +result.label + 1;
+          consoleTxtEffect.innerHTML = +result.label + 1;
+
           console.log("DETECT:", classes[result.label]);
           // document.getElementById("console").innerText = ":)";
           // changeDetectedChord(classes[result.label]);
@@ -174,7 +180,8 @@ async function app() {
         }
       } else {
         ones = [];
-        consoleMonitor.innerHTML = "";
+        consoleTxt.innerHTML = "";
+        consoleTxtEffect.innerHTML = "";
         //   document.getElementById("console").innerText = "";
         Object.values(poly).forEach((synth) => synth.triggerRelease());
       }

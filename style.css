@@ -236,3 +236,32 @@ button {
 .train-button-container:not(.disabled) .play-yellow {
   background-color: gold !important;
 }
+.console-txt-effect {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hotpink;
+  mix-blend-mode: lighten;
+  animation: circularMotion;
+  animation-iteration-count: infinite;
+  animation-duration: 4s;
+}
+
+@keyframes circularMotion {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(4px, -2px);
+  }
+  50% {
+    transform: translate(4px, 2px);
+  }
+  75% {
+    transform: translate(-4px, 2px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

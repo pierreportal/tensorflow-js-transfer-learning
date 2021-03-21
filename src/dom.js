@@ -9,6 +9,9 @@ const hLine = document.querySelector(".h-line");
 const chordGallery = document.querySelector(".chord-gallery");
 const consoleMonitor = document.querySelector(".console");
 
+const consoleTxt = document.querySelector(".console-txt");
+const consoleTxtEffect = document.querySelector(".console-txt-effect");
+
 // create dynamic dom buttons
 let testButtons;
 const buttonsMapping = {};
